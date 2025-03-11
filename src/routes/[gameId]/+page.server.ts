@@ -1,3 +1,4 @@
+import type { PageServerLoad } from './$types';
 import type { Play } from '$lib/types';
 import { Player } from '$lib/types';
 import { TeamStats } from '$lib/types';
@@ -15,7 +16,7 @@ export const entries: EntryGenerator = () => {
 
 export const prerender = true;
 
-export const load = async ({ params, parent }) => {
+export const load: PageServerLoad = async ({ params, parent }) => {
     const { gamesList } = await parent()
     const gameId = params.gameId.replace(/[[\]']+/g, ''); 
     const game = gamesList.find((game: Game) => game.id === gameId);

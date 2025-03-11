@@ -1,9 +1,9 @@
 import { db, collection, getDocs } from '$lib/firebase';
 import type { Game } from '$lib/types';
-import { writeFileSync } from 'fs';
+import type { ServerLoad } from '@sveltejs/kit'; 
 
 
-export const load = async () => {
+export const load: ServerLoad = async () => {
     let gamesList: Game[] = [];  
 
     try {
@@ -13,7 +13,6 @@ export const load = async () => {
             id: doc.id,
             ...doc.data() as Omit<Game, 'id'>
         }));
-        writeFileSync('static/gameIds.json', JSON.stringify(gamesList.map(game => game.id), null, 2));
     } catch (error) {
         console.error('Error fetching games:', error);
     }

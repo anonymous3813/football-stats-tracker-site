@@ -2,7 +2,7 @@
     let {gameId, opponent, score1, score2} = $props()
 </script>
 
-<a href={`/[${gameId}]`}>
+<a href={`/${gameId}`}>
   <div class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-lg m-6">
     <!-- Game Card Header -->
     <div class="p-4 flex justify-between items-center">

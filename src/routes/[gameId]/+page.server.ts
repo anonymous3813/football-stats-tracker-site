@@ -3,6 +3,17 @@ import { Player } from '$lib/types';
 import { TeamStats } from '$lib/types';
 import { BoxScore } from '$lib/types';
 import type { Game } from '$lib/types';
+import type { EntryGenerator } from './$types';
+import { readFileSync } from 'fs';
+
+export const entries: EntryGenerator = () => {
+    const data = readFileSync('static/gameIds.json', 'utf8');
+    const games = JSON.parse(data);
+
+    return games.map((game: { id: string }) => ({ gameId: game.id }));
+};
+
+export const prerender = true;
 
 export const load = async ({ params, parent }) => {
     const { gamesList } = await parent()

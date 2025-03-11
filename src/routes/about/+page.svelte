@@ -1,4 +1,3 @@
-
 <svelte:head>
     <title>About - My Website</title>
     <meta name="description" content="Learn more about our website, our mission, and our team." />

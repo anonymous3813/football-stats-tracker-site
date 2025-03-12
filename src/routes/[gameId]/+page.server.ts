@@ -18,7 +18,7 @@ export const prerender = true;
 
 export const load: PageServerLoad = async ({ params, parent }) => {
     const { gamesList } = await parent()
-    const gameId = params.gameId.replace(/[[\]']+/g, ''); 
+    const gameId = params.gameId; 
     const game = gamesList.find((game: Game) => game.id === gameId);
     let boxScore;
     if(game) {

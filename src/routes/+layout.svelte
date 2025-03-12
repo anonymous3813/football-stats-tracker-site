@@ -28,5 +28,6 @@
   <!-- Footer -->
   <footer class="bg-gray-800 text-white py-4 text-center">
     <p>&copy; {new Date().getFullYear()} Football stats tracker site</p>
+    <a href="https://www.flaticon.com/free-icons/american-football" title="american football icons">Icon created by Flaticon</a>
   </footer>
 </div>

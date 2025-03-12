@@ -83,7 +83,7 @@
     {/if}
 {:else if selectedTab === 2}
     {#if boxScoreList}
-        <div class="flex flex-wrap justify-evenly gap-4">
+        <div class="flex flex-wrap justify-evenly gap-4 m-8">
             {#if boxScoreList}
             {#each boxScoreList as group}
                 <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 bg-white shadow-lg rounded-xl p-4">

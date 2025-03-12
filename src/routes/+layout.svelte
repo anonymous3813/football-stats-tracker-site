@@ -3,6 +3,11 @@
 	let { children } = $props();
 </script>
 
+<svelte:head>
+  <title>Football Stats Tracker</title>
+  <meta name="description" content="Track football stats for the 2025 season" />
+</svelte:head>
+
 <div class="min-h-screen flex flex-col">
   <!-- Header -->
   <div class="bg-blue-600 text-white p-4 shadow-md">

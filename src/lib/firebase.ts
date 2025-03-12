@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, addDoc, doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_ID,
-  measurementId: import.meta.env.VITE_MEASUREMENT_ID
+  apiKey: import.meta.env.VITE_API_KEY || process.env.API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN || process.env.AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID || process.env.PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET || process.env.STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID || process.env.MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID || process.env.APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID || process.env.MEASUREMENT_ID
 };
   
   // Initialize Firebase

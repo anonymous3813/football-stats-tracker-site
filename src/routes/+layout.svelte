@@ -9,7 +9,7 @@
     <div class="flex justify-between items-center">
       <div class="text-lg font-bold">Football Stats Tracker</div>
       <div class="space-x-4">
-        <a href="/" class="hover:text-gray-200">Home</a>
+        <a href=" " class="hover:text-gray-200">Home</a>
         <a href="/about" class="hover:text-gray-200">About</a>
       </div>
     </div>

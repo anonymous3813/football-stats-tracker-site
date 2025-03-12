@@ -1,27 +1,15 @@
 import type { PageServerLoad } from './$types';
-import type { Play } from '$lib/types';
-import { Player } from '$lib/types';
-import { TeamStats } from '$lib/types';
-import { BoxScore } from '$lib/types';
-import type { Game } from '$lib/types';
-import type { EntryGenerator } from './$types';
-import { readFileSync } from 'fs';
-
-export const entries: EntryGenerator = () => {
-    const data = readFileSync('static/gameIds.json', 'utf8');
-    const games = JSON.parse(data);
-
-    return games.map((game: { id: string }) => ({ gameId: game.id }));
-};
-
-export const prerender = true;
+import { BoxScore, Player, type Play, TeamStats, type Game } from '$lib/types';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
-    const { gamesList } = await parent()
-    const gameId = params.gameId; 
+    const { gamesList } = await parent();
+    const gameId = params.gameId;
+    if (!gameId) {
+        throw new Error("Missing parameter 'gameId' in route");
+    }
     const game = gamesList.find((game: Game) => game.id === gameId);
     let boxScore;
-    if(game) {
+    if (game) {
         boxScore = await runAnalysis(game);
     }
     return {
@@ -51,11 +39,8 @@ async function runAnalysis(game: Game): Promise<BoxScore> {
     fetchDefensiveStats(defensivePlays, playerStats);
     fetchTeamDefensiveStats(defensivePlays, teamStats);
 
-    //console.log("playerStats after fetch:", playerStats); // Inspect playerStats
-
     const playerStatsList: Player[] = Array.from(playerStats.values());
 
-    
     const passingPlayers = playerStatsList.filter((p: Player) => p.passingAttempts > 0).sort((a, b) => b.passingYards - a.passingYards);
     const receivingPlayers = playerStatsList.filter((p: Player) => p.receivingYards > 0).sort((a, b) => b.receivingYards - a.receivingYards);
     const rushingPlayers = playerStatsList.filter((p: Player) => p.rushingAttempts > 0).sort((a, b) => b.rushingYards - a.rushingYards);
@@ -63,14 +48,6 @@ async function runAnalysis(game: Game): Promise<BoxScore> {
     const tacklers = playerStatsList.filter((p: Player) => p.flagPulls > 0).sort((a, b) => b.flagPulls - a.flagPulls);
     const dbs = playerStatsList.filter((p: Player) => p.defInterceptions > 0 || p.pbu > 0).sort((a, b) => b.defInterceptions - a.defInterceptions || b.pbu - a.pbu);
 
-    /*
-    console.log("passingPlayers length:", passingPlayers.length);
-    console.log("rushingPlayers length:", rushingPlayers.length);
-    console.log("receivingPlayers length:", receivingPlayers.length);
-    console.log("tacklers length:", tacklers.length);
-    console.log("dbs length:", dbs.length);*/
-    
-    
     return new BoxScore(passingPlayers, rushingPlayers, receivingPlayers, tacklers, dbs, teamStats);
 }
 
@@ -137,11 +114,11 @@ function fetchDefensiveStats(plays: Play[], playerStats: Map<string, Player>): v
         const playerId = play.targetedPlayerNum;
         if (!playerId) return;
 
-        let player = playerStats.get(playerId)
-        if(!player) {
+        let player = playerStats.get(playerId);
+        if (!player) {
             player = new Player(playerId);
-            playerStats.set(playerId, player)
-        } 
+            playerStats.set(playerId, player);
+        }
 
         if (play.pass) {
             if (play.intercepted) {

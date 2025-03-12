@@ -1,4 +1,4 @@
-import adapter from "@sveltejs/adapter-static";
+import adapter from "@sveltejs/adapter-node";
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -7,15 +7,9 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 
-	paths: {
-		base: process.env.NODE_ENV === 'production' ? '/football-stats-tracker-site' : ''
-	  },
-	
-	  adapter: adapter({
-		pages: 'build',
-		assets: 'build',
-		fallback: null,
-	  }),
+	kit: {
+		adapter: adapter()
+	}
 	
 	
 };

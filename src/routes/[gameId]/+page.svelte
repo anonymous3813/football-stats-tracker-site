@@ -15,8 +15,6 @@
         let teamStatList: { label: string; offValue: number, defValue: number }[];
     let playerDetail: Player | undefined = $state(undefined);
     let playerDetailsOpen = $state(false);
-    let sortBy = $state("name");
-    let sortOrder = $state("asc");
     
     function onclick(newTab: number) {
         selectedTab = newTab;

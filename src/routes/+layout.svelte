@@ -9,7 +9,7 @@
     <div class="flex justify-between items-center">
       <div class="text-lg font-bold">Football Stats Tracker</div>
       <div class="space-x-4">
-        <a href=" " class="hover:text-gray-200">Home</a>
+        <a href="/" class="hover:text-gray-200">Home</a>
         <a href="/about" class="hover:text-gray-200">About</a>
       </div>
     </div>
@@ -22,6 +22,6 @@
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-white py-4 text-center">
-    <p>&copy; {new Date().getFullYear()} My Website. Random text</p>
+    <p>&copy; {new Date().getFullYear()} Football stats tracker site</p>
   </footer>
 </div>

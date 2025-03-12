@@ -3,6 +3,12 @@
 	let { children } = $props();
 </script>
 
+<head>
+  <title>Football Stats Tracker</title>
+  <meta name="description" content="Welcome to this football stats tracker for the 2025 season" />
+</head>
+
+
 <div class="min-h-screen flex flex-col">
   <!-- Header -->
   <div class="bg-blue-600 text-white p-4 shadow-md">

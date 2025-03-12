@@ -41,6 +41,19 @@
     }
 </script>
 
+<head>
+    <title>Football Stats Tracker</title>
+    <meta name="description" content="Welcome to this football stats tracker for the 2025 season" />
+    <style>
+        .bg-blue-500 {
+            background-color: #3b82f6;
+        }
+        .text-blue-500 {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+
 <div class="relative flex items-center justify-center bg-gray-100">
     <div class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-white shadow-lg rounded-xl p-4 flex space-x-4 font-bold">
         <button 

@@ -2,9 +2,6 @@
 	import DropDown from '../../components/DropDown.svelte';
 	import ButtonGroup from '../../components/ButtonGroup.svelte';
 
-	let { data } = $props();
-	console.log(data.props.data);
-
 	let down = $state('First down');
 	let playIndex = $state(0);
 	let offense = $state(true);

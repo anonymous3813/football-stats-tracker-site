@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { BoxScore, Play, Player } from "$lib/types";
-    import PlayCard from "../../components/PlayCard.svelte";
+	  import type { BoxScore, Play, Player } from "$lib/types";
+    import PlayCard from "../../../components/PlayCard.svelte";
     import type { PageProps } from './$types';
-    import TeamStat from "../../components/TeamStat.svelte";
-	import { calculatePasserRating } from "$lib/utils";
+    import TeamStat from "../../../components/TeamStat.svelte";
+	  import { calculatePasserRating } from "$lib/utils";
 
     let selectedTab = $state(1);
     let { data }: PageProps = $props();

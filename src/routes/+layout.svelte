@@ -26,8 +26,26 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-4 text-center">
-    <p>&copy; {new Date().getFullYear()} Football stats tracker site</p>
-    <a href="https://www.flaticon.com/free-icons/american-football" title="american football icons">Icon created by Flaticon</a>
+  <footer class="bg-gray-900 text-gray-300 py-6 mt-12">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+      
+      <div class="text-center md:text-left">
+        <p>&copy; {new Date().getFullYear()} Football Stats Tracker</p>
+      </div>
+      
+      <div class="text-center md:text-right">
+        <a 
+          href="https://www.flaticon.com/free-icons/american-football" 
+          title="American football icons" 
+          class="text-blue-400 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Icon created by Flaticon
+        </a>
+      </div>
+  
+    </div>
   </footer>
+  
 </div>

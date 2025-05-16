@@ -3,8 +3,7 @@
 </script>
 
 <div class={`max-w-sm mx-auto bg-white border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 m-6 
-  ${play.onOffense ? 'bg-green-500 border-green-600' : 'bg-red-500 border-red-600'} 
-  hover:${play.onOffense ? 'bg-green-600' : 'bg-red-600'}`}>
+  ${play.onOffense ? 'bg-green-500 border-green-600' : 'bg-red-500 border-red-600'}`}>
 
 <!-- Card header-->
   <div class={`p-4 flex justify-between items-center ${play.onOffense ? 'bg-green-600' : 'bg-red-600'} text-white rounded-t-lg`}>

@@ -1,6 +1,6 @@
 <svelte:head>
-    <title>About - My Website</title>
-    <meta name="description" content="Learn more about our website, our mission, and our team." />
+    <title>About - Football Stats tracker</title>
+    <meta name="description" content="Learn more about this football stats tracker site." />
 </svelte:head>
   
 <main class="container mx-auto px-4 py-8 m-4">

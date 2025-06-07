@@ -14,12 +14,38 @@ export interface Play {
     yards: number;
 }
 
+export interface Play2 {
+    id: string,
+    down: number,
+	offense: boolean,
+
+	selectedPlayType: string,
+	selectedPassResult: string,
+	selectedPAT: string,
+
+	intercepted: string,
+	playOutcome: string,
+
+	targetedPlayer: number,
+	yards: number;
+}
+
 export interface Game {
     id: string;
     opponent: string;
     scoreTeam1: number;
     scoreTeam2: number;
     plays: Play[]; 
+}
+
+export interface Game2 {
+    id: string;
+    teamName: string;
+    opponent: string;
+    scoreTeam1: number;
+    scoreTeam2: number;
+    date: Date;
+    plays: Play2[];
 }
 
 export class Player {
@@ -76,3 +102,4 @@ export class BoxScore {
         public teamStats: TeamStats
     ) {}
 }
+

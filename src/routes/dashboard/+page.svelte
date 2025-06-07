@@ -1,5 +1,5 @@
 <script lang="ts">
-    import GameCard from "../../components/GameCard.svelte";
+    import GameCard from "$lib/components/GameCard.svelte";
 
     let { data } = $props()
 

@@ -19,39 +19,45 @@ export const mockGames: Game2[] = [
     plays: [
       {
         id: "play1",
-        down: 1,  // enum Down.First = 'First down'
+        down: 1,
         offense: true,
-        selectedPlayType: PlayType.Pass,  // 'Pass'
-        selectedPassResult: PassResult.Complete,  // 'Complete'
-        selectedPAT: PATOption.OnePAT,  // '1 PAT'
-        intercepted: IncompleteOutcome.NoInt,  // 'No Int'
-        playOutcome: PlayOutcome.TD,  // 'TD'
+        selectedPlayType: PlayType.Pass,
+        selectedPassResult: PassResult.Complete,
+        selectedPAT: PATOption.OnePAT,
+        intercepted: IncompleteOutcome.NoInt,
+        playOutcome: PlayOutcome.TD,
         targetedPlayer: 82,
-        yards: 35
+        qbNum: 12, 
+        yards: 35,
+        lastPlayOfHalf: false
       },
       {
         id: "play2",
-        down: 2, // 'Second down'
+        down: 2,
         offense: false,
-        selectedPlayType: PlayType.Run,  // 'Run'
-        selectedPassResult: "" as PassResult | "", // empty string if allowed, else omit or use null/undefined
-        selectedPAT: PATOption.TwoPAT, // '2 PAT'
-        intercepted: IncompleteOutcome.NoInt, // 'No Int' (use closest valid enum)
-        playOutcome: PlayOutcome.FirstDown, // '1st Down'
+        selectedPlayType: PlayType.Run,
+        selectedPassResult: "" as PassResult | "",
+        selectedPAT: PATOption.TwoPAT,
+        intercepted: IncompleteOutcome.NoInt,
+        playOutcome: PlayOutcome.FirstDown,
         targetedPlayer: 0,
-        yards: 12
+        qbNum: 0, 
+        yards: 12,
+        lastPlayOfHalf: false
       },
       {
         id: "play3",
-        down: 3, // 'Third down'
+        down: 3,
         offense: false,
-        selectedPlayType: PlayType.Punt, // 'Punt' instead of 'defense' (not in enum)
+        selectedPlayType: PlayType.Punt,
         selectedPassResult: "" as PassResult | "",
         selectedPAT: "" as PATOption | "",
-        intercepted: IncompleteOutcome.Intercepted, // 'Intercepted'
-        playOutcome: PlayOutcome.Neither, // 'Neither' (use closest valid enum)
+        intercepted: IncompleteOutcome.Intercepted,
+        playOutcome: PlayOutcome.Neither,
         targetedPlayer: 10,
-        yards: -5
+        qbNum: 0,
+        yards: -5,
+        lastPlayOfHalf: false
       }
     ]
   },
@@ -71,9 +77,11 @@ export const mockGames: Game2[] = [
         selectedPassResult: PassResult.Incomplete,
         selectedPAT: "" as PATOption | "",
         intercepted: IncompleteOutcome.NoInt,
-        playOutcome: PlayOutcome.Neither,  // 'Neither' instead of 'incomplete'
+        playOutcome: PlayOutcome.Neither,
         targetedPlayer: 11,
-        yards: 0
+        qbNum: 9,
+        yards: 0,
+        lastPlayOfHalf: false
       },
       {
         id: "play5",
@@ -83,9 +91,11 @@ export const mockGames: Game2[] = [
         selectedPassResult: "" as PassResult | "",
         selectedPAT: "" as PATOption | "",
         intercepted: IncompleteOutcome.NoInt,
-        playOutcome: PlayOutcome.Neither,  // 'Neither' instead of 'fumble'
+        playOutcome: PlayOutcome.Neither,
         targetedPlayer: 25,
-        yards: -3
+        qbNum: 9,
+        yards: -3,
+        lastPlayOfHalf: false
       }
     ]
   }

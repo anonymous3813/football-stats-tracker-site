@@ -1,14 +1,17 @@
 <script lang="ts">
 	import DropDown from '$lib/components/DropDown.svelte';
 	import ButtonGroup from '$lib/components/ButtonGroup.svelte';
+	import PulloutScore from '$lib/components/PulloutScore.svelte';
 	import TextBox from '$lib/components/TextBox.svelte';
+	import { calculateScore } from '$lib/utils.js';
 	import {
 		gameStore,
 		getCurrentGame,
 		getCurrentPlay,
-		getAmountOfPlays
+		getAmountOfPlays,
+		addPlay,
+		updatePlay
 	} from '$lib/stores/TrackerStore.svelte.js';
-	import { onMount } from 'svelte';
 	import {
 		playTypes,
 		passResults,
@@ -18,19 +21,17 @@
 		IncompleteOutcomes
 	} from '$lib/constants.js';
 	import { goto } from '$app/navigation';
-
-	/*
-	interface TrackerPageProps {
-		gameId: string;
-		playId: string;
-		playLength: number;
-		playIndex: string;
-	}*/
+	import { QueryOrderByConstraint } from 'firebase/firestore';
+	import { numberToDown, downToNumber } from '$lib/utils.js';
+	import { Down } from '$lib/enums.js';
+	import { gameInfoStore } from '$lib/stores/GameInfoStore.svelte.js';
 
 	const { data } = $props();
-	const playId = data.playId;
-	const gameId = data.gameId;
-	const playLength = data.playLength || 0;
+	let playId = $derived(data.playId);
+	let gameId = $derived(data.gameId);
+	let playLength = $derived(data.playLength || 0);
+
+	let isNewPlay = $state(false);
 
 	const play = $state({
 		id: playId,
@@ -45,37 +46,75 @@
 		playOutcome: 'Neither',
 
 		targetedPlayer: 0,
-		yards: 0
+		qbNum: 0,
+		yards: 0,
+		lastPlayOfHalf: false
 	});
 
-	const score1 = $state(0);
-	const score2 = $state(0);
+	let isEndOfHalf = $state(false);
 
-	onMount(() => {
-		console.log('Game ID:', gameId);
-		const fetchedPlay = getCurrentPlay(gameId, playId);
-		console.log('Fetched Play:', fetchedPlay);
+	$effect(() => {
+		const fetchedPlay = getCurrentPlay(data.gameId, data.playId);
+
 		if (fetchedPlay) {
 			Object.assign(play, fetchedPlay);
+			isNewPlay = false;
+		} else {
+			isNewPlay = true;
 		}
 
 		$inspect(play);
 	});
 
+	function savePlay() {
+		updatePlay(gameId, playId, play);
+	}
+
 	function handleNext() {
-		if (gameStore.currentPlayIndex < playLength - 1) {
-			gameStore.currentPlayIndex += 1;
-		} else {
-			// Add new play logic here
+		savePlay();
+		let nextPlayId = getCurrentGame(gameId)?.plays[gameStore.currentPlayIndex + 1]?.id;
+		if (!nextPlayId) {
+			// If no next play, add it
+			nextPlayId = crypto.randomUUID();
+			addPlay(gameId, {
+				id: nextPlayId,
+				down: 1,
+				offense: true,
+				selectedPlayType: 'Pass',
+				selectedPassResult: 'Incomplete',
+				selectedPAT: 'Failed PAT',
+				intercepted: 'No Int',
+				playOutcome: 'Neither',
+				targetedPlayer: 0,
+				qbNum: gameInfoStore.qbNum || 0,
+				yards: 0,
+				lastPlayOfHalf: false
+			});
 		}
+
+		gameStore.currentPlayIndex += 1;
+		goto(`/tracker/game/${gameId}/play/${nextPlayId}`);
 	}
 
 	function handlePrevious() {
-		if (gameStore.currentPlayIndex > 0) {
+		savePlay();
+		let prevPlayId = getCurrentGame(gameId)?.plays[gameStore.currentPlayIndex - 1]?.id;
+		if (prevPlayId) {
 			gameStore.currentPlayIndex -= 1;
+			goto(`/tracker/game/${gameId}/play/${prevPlayId}`);
+		} else {
+			alert('No previous play available.');
 		}
 	}
 </script>
+
+<PulloutScore
+	offense={play.offense}
+	team1Name={getCurrentGame(gameId)?.teamName || 'Team 1'}
+	team2Name={getCurrentGame(gameId)?.opponent || 'Team 2'}
+	score1={data.scoreTeam1}
+	score2={data.scoreTeam2}
+/>
 
 <div
 	class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-100 px-4 py-10"
@@ -85,11 +124,19 @@
 			<button
 				class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-300 transition font-medium"
 				onclick={() => {
+					savePlay();
 					goto(`/tracker/game/${gameId}`);
 				}}>← Back</button
 			>
 
-			<h1 class="text-2xl font-semibold text-center text-gray-800 flex-1">{score1} - {score2}</h1>
+			<button
+				class={`px-5 py-3 rounded-lg shadow-sm transition font-medium
+        ${isEndOfHalf ? 'bg-cyan-600 hover:bg-cyan-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+				onclick={() => (isEndOfHalf = !isEndOfHalf)}
+				aria-pressed={isEndOfHalf}
+			>
+				{isEndOfHalf ? 'Last Play of Half (Active)' : 'Last Play of Half?'}
+			</button>
 
 			<button
 				class={`px-4 py-2 rounded-lg shadow-sm font-medium transition text-white ${play.offense ? 'bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-400' : 'bg-rose-500 hover:bg-rose-600 focus:ring-rose-400'}`}
@@ -105,23 +152,9 @@
 			<div class="relative w-1/2">
 				<DropDown
 					dropDownItems={downs}
-					selected={play.down}
+					selected={numberToDown[play.down]}
 					onclick={(item: string) => {
-
-						switch (item) {
-							case '1st down':
-								play.down = 1;
-								break;
-							case '2nd down':
-								play.down = 2;
-								break;
-							case '3rd down':
-								play.down = 3;
-								break;
-							case '4th down':
-								play.down = 4;
-								break;
-						}
+						play.down = downToNumber[item as Down];
 					}}
 				></DropDown>
 			</div>
@@ -181,17 +214,18 @@
 		{/if}
 
 		<div class="flex justify-between items-center bg-gray-100 p-4 rounded-md shadow-inner">
-			<TextBox label="Targeted Player" value={play.targetedPlayer} placeholder="Enter #"></TextBox>
-			<TextBox label="QB" value={play.targetedPlayer} placeholder="Enter QB #"></TextBox>
+			<TextBox label="Targeted Player" bind:value={play.targetedPlayer} placeholder="Enter #"
+			></TextBox>
+			<TextBox label="QB" bind:value={play.qbNum} placeholder="Enter QB #"></TextBox>
 		</div>
 
-		<TextBox label="Yards Gained" value={play.yards} placeholder="e.g., 15"></TextBox>
+		<TextBox label="Yards Gained" bind:value={play.yards} placeholder="e.g., 15"></TextBox>
 
 		<div class="flex gap-4 justify-between pt-4">
 			<button
 				class="bg-indigo-500 text-white px-5 py-3 rounded-lg shadow-sm hover:bg-indigo-600 hover:scale-102 transition font-medium"
 				disabled={gameStore.currentPlayIndex === 0}
-				onclick={() => handlePrevious}
+				onclick={handlePrevious}
 			>
 				← Previous
 			</button>

@@ -27,7 +27,10 @@ export interface Play2 {
 	playOutcome: string,
 
 	targetedPlayer: number,
+    qbNum: number,
 	yards: number;
+
+    lastPlayOfHalf: boolean;
 }
 
 export interface Game {

@@ -1,5 +1,5 @@
 <script>
-    let { label, value, placeholder = '' } = $props();
+    let { label, value=$bindable(), placeholder = '' } = $props();
 </script>
 
 <div class="space-y-1">

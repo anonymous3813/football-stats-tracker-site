@@ -50,14 +50,14 @@
       <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition hover:scale-105">
         <h2 class="text-2xl font-bold mb-2">🏈 Live Game Tracker</h2>
         <p class="text-gray-600">
-          Log actions as they happen — goals, passes, fouls and more. Built for speed and accuracy.
+          Log actions as they happen — touchdowns, passes, interceptions and more. Built for speed and accuracy.
         </p>
       </div>
     </div>
   
     <!-- Sign In CTA -->
     <div class="mt-20 text-center">
-      <p class="text-gray-500 mb-3">Want to start tracking? You'll need an account.</p>
+      <p class="text-gray-500 mb-3">Want to share stats and see insights? You'll need to sign in.</p>
       <button
         onclick={signIn}
         class="px-8 py-3 bg-black text-white rounded-full font-bold hover:bg-gray-800 transition hover:scale-105"

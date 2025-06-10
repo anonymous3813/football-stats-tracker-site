@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { createUserWithEmailAndPassword } from 'firebase/auth';
-  import { auth } from "$lib/firebase"; 
+	import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+	import { auth } from '$lib/firebase';
 	import { signUp } from '$lib/auth_utils';
 	import { goto } from '$app/navigation';
 
-
 	let email = $state('');
 	let password = $state('');
-  let confirmPassword = $state('');
+	let confirmPassword = $state('');
 	let fullName = $state('');
 
 	function onGoogleClick() {
@@ -15,17 +14,19 @@
 	}
 
 	async function handleSignup(e: Event) {
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
+		if (password !== confirmPassword) {
+			alert('Passwords do not match');
+			return;
+		}
 		e.preventDefault();
 		try {
 			const user = await signUp(email, password);
-
-			alert('Signed up as: '+ user.email);
-      goto('/'); 
-
+			await updateProfile(user, {
+				displayName: fullName,
+			})
+				
+			alert('Signed up as: ' + user.email);
+			goto('/');
 		} catch (error) {
 			console.error('Signup error:', error);
 			alert(`Error: ${(error as any).message}`);
@@ -80,7 +81,7 @@
 				required
 			/>
 
-      <input
+			<input
 				type="password"
 				placeholder="Confirm Password"
 				bind:value={confirmPassword}
